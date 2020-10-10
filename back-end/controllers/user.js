@@ -22,7 +22,7 @@ exports.signup = (req, res, next) => {
             })
             .catch((error) => res.status(500).json({ error }));
     } else {
-        return res.status(400).json({ error: "Le mot de passe contient des caractères invalides ou est trop court !" });
+        return res.status(400).json({ error: "Le mot de passe doit contenir au moins 10 caractères, 3 majucules, 2 chiffres, 1 minuscule, 0 espace et 0 symbole !" });
     }
   };
 

@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     return res.status(400).json({ error: "Adresse email trop longue." });
   }
 
-  if (/[$:={},;?]/.test(req.body.email)) {
+  if (/[<>$:={},;?]/.test(req.body.email)) {
     return res.status(400).json({ error: "Caracètres invalide." });
   }
   next();
