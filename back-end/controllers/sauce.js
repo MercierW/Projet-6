@@ -93,13 +93,19 @@ exports.likeOrDislikeSauce = (req, res, next) => {
 
 //MODIFICATION DE LA SAUCE
 exports.modifySauce = (req, res, next) => {
+  if (req.file) {
+    Sauce.findOne({ _id: req.params.id })
+      .then((sauce) => {
+        const filename = sauce.imageUrl.split("/images/")[1];
+        fse.remove(`images/${filename}`);
+      })
+      .catch((error) => res.status(500).json({ error }));
+  }
   const sauceObject = req.file
-  ? {
-    ...JSON.parse(req.body.sauce),
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-        }`,
-      }
+      ? {
+          ...JSON.parse(req.body.sauce),
+          imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        }
       : { ...req.body };
       if (
         validInput.test(sauceObject.name) ||
